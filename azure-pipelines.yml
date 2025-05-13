@@ -65,14 +65,14 @@ stages:
       displayName: 'Publish Artifact: drop'
       condition: succeeded()
 
-- stage: 'Deploy'
-  displayName: 'Deploy the web application'
+- stage: 'Deploy DEV'
+  displayName: 'DEV: Deploy the web application'
   dependsOn: Build
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
+    environment: DEV
     variables:
     - group: DEV_VARIABLE
     strategy:
@@ -84,3 +84,23 @@ stages:
               azureSubscription: 'Me-isarar1-rg-ado-tailspin-space-dev'
               appName: '$(AZURE_WEBAPP_NAME)'
               package: '$(Pipeline.Workspace)/drop/Release/*.zip'
+
+- stage: 'Deploy PRD'
+  displayName: 'PRD: Deploy the web application'
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-20.04'
+    environment: PRD
+    variables:
+    - group: PRD_VARIABLE
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: .azdo/templates/azweb-deploy.yaml
+            parameters:
+              azureSubscription: 'Me-isarar1-rg-ado-tailspin-space-prd'
+              appName: '$(AZURE_WEBAPP_NAME)'
+              package: '$(Pipeline.Workspace)/drop/Release/*.zip'            
