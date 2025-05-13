@@ -66,7 +66,7 @@ stages:
       condition: succeeded()
 
 - stage: 'Deploy DEV'
-  displayName: 'DEV: Deploy the web application'
+  displayName: 'DEV Deploy the web application'
   dependsOn: Build
   jobs:
   - deployment: Deploy
@@ -86,7 +86,7 @@ stages:
               package: '$(Pipeline.Workspace)/drop/Release/*.zip'
 
 - stage: 'Deploy PRD'
-  displayName: 'PRD: Deploy the web application'
+  displayName: 'PRD Deploy the web application'
   dependsOn: Build
   jobs:
   - deployment: Deploy
