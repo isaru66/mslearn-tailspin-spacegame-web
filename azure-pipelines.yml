@@ -81,13 +81,13 @@ stages:
           steps:
           - template: .azdo/templates/azweb-deploy.yaml
             parameters:
-              azureSubscription: 'Me-isarar1-rg-ado-tailspin-space-dev'
+              azureSubscription: '$(AZURE_SUBSCRIPTION_CONNECTION_NAME)'
               appName: '$(AZURE_WEBAPP_NAME)'
               package: '$(Pipeline.Workspace)/drop/Release/*.zip'
 
 - stage: 'Deploy_PRD'
   displayName: 'PRD Deploy the web application'
-  dependsOn: Build
+  dependsOn: Build # Depend on business, we may set that Deploy_DEV stage is required before Deploy_PRD stage
   jobs:
   - deployment: Deploy
     pool:
@@ -101,6 +101,6 @@ stages:
           steps:
           - template: .azdo/templates/azweb-deploy.yaml
             parameters:
-              azureSubscription: 'Me-isarar1-rg-ado-tailspin-space-prd'
+              azureSubscription: '$(AZURE_SUBSCRIPTION_CONNECTION_NAME)'
               appName: '$(AZURE_WEBAPP_NAME)'
-              package: '$(Pipeline.Workspace)/drop/Release/*.zip'            
+              package: '$(Pipeline.Workspace)/drop/Release/*.zip'
