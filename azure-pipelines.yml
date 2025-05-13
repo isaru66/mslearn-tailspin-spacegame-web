@@ -65,7 +65,7 @@ stages:
       displayName: 'Publish Artifact: drop'
       condition: succeeded()
 
-- stage: 'Deploy DEV'
+- stage: 'Deploy_DEV'
   displayName: 'DEV Deploy the web application'
   dependsOn: Build
   jobs:
@@ -85,7 +85,7 @@ stages:
               appName: '$(AZURE_WEBAPP_NAME)'
               package: '$(Pipeline.Workspace)/drop/Release/*.zip'
 
-- stage: 'Deploy PRD'
+- stage: 'Deploy_PRD'
   displayName: 'PRD Deploy the web application'
   dependsOn: Build
   jobs:
