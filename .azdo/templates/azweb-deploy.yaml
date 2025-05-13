@@ -1,0 +1,17 @@
+parameters:
+- name: azureSubscription
+  default: ''
+- name: appName
+  default: ''
+- name: package
+  default: ''
+
+steps:
+- download: current
+  artifact: drop
+- task: AzureWebApp@1
+  displayName: 'Azure App Service Deploy: website'
+  inputs:
+    azureSubscription: ${{ parameters.azureSubscription }}
+    appName:  ${{ parameters.appName }}
+    package: ${{ parameters.package }}

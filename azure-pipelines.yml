@@ -79,11 +79,8 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
+          - template: .azdo/templates/azweb-deploy.yaml
+            parameters:
               azureSubscription: 'Me-isarar1-rg-ado-tailspin-space-dev'
               appName: '$(AZURE_WEBAPP_NAME)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              package: '$(Pipeline.Workspace)/drop/Release/*.zip'
