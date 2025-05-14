@@ -9,6 +9,14 @@ parameters:
 steps:
 - download: current
   artifact: drop
+- task: Bash@3
+  displayName: 'Check parameters'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "azureSubscription: ${{ parameters.azureSubscription }}"
+      echo "appName: ${{ parameters.appName }}"
+      echo "package: ${{ parameters.package }}"
 - task: AzureWebApp@1
   displayName: 'Azure App Service Deploy: website'
   inputs:
